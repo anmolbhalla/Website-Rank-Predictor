@@ -5,13 +5,12 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from pyvirtualdisplay import Display
-
 class rank_predict:
 
     def __init__(self):
 
-        self.display = Display(visible=0, size=(1024, 768))
-        self.display.start()
+        # self.display = Display(visible=0, size=(1024, 768))
+        # self.display.start()
         self.driver=webdriver.Chrome()
         self.driver.get(url='https://www.google.com')
         self.timeout = 100
@@ -40,16 +39,26 @@ class rank_predict:
         except TimeoutException:
             print("Timed out waiting for page to load")
 
-        links_text=[]
-        links_as_webelement=self.driver.find_elements_by_css_selector('div.f._Oe._SWb')    #Finding all the links
-        for i in range(0,len(links_as_webelement)):
-            if (links_as_webelement[i].text)!='':
-                links_text.append(links_as_webelement[i].text)
-        print(links_text)
+        self.links_text=[]
+        self.links_as_webelement=self.driver.find_elements_by_css_selector('div.f._Oe._SWb')    #Finding all the links
+        for i in range(0,len(self.links_as_webelement)):
+            if (self.links_as_webelement[i].text)!='':
+                self.links_text.append(self.links_as_webelement[i].text)
+        # print(self.links_text)
+    def search(self,search):
+
+        for i in range(0,len(self.links_text)):
+            if search in self.links_text[i]:
+                print(i+1)
+
 
 class_object=rank_predict()
-string_to_search='Enter Search String'                              #Enter the seacr string for which you want to get links
+string_to_search=''                              #Enter the seacr string for which you want to get links
 class_object.search_google(string_to_search)
 class_object.get_links()
+
+name_of_website=''                      # Enter the website whose rank you want to predict
+
+class_object.search(name_of_website)
 
 
