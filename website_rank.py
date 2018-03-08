@@ -14,6 +14,7 @@ class rank_predict:
         self.driver=webdriver.Chrome()
         self.driver.get(url='https://www.google.com')
         self.timeout = 100
+        self.page=1
 
 
 
@@ -46,29 +47,48 @@ class rank_predict:
                 self.links_text.append(self.links_as_webelement[i].text)
         # print(self.links_text)
     def search(self,search,stringtosearch):
-        count=0
-        counter=0
-        for i in range(0,len(self.links_text)):
-            if search in self.links_text[i]:
-                counter+=1
-                print('Rank of  '+ str(search) +' for the search  '+str(stringtosearch)+ ' is :' +str(i+1))
-                for i in range(0,i):
-                    if count==0:
+        sum=0
+
+        while self.page<10:
+            self.get_links()
+            count=0
+            counter=0
+            for i in range(0,len(self.links_text)):
+                if search in self.links_text[i]:
+                    counter+=1
+                    if self.page==1:
+                        print('Rank of  '+ str(search) +' for the search  '+str(stringtosearch)+ ' is :' +str(i+1))
                         print('\n')
-                        print('Top websites on top of the searched Website are :')
+                        print('Searched website found on page ' + str(self.page))
+                    else:
+                        print('Rank of  ' + str(search) + ' for the search  ' + str(stringtosearch) + ' is :' + str(sum+(i + 1)))
                         print('\n')
-                        count+=1
-                    print(self.links_text[i])
-        if counter==0:
-            print('Not found on Page')
+                        print('Searched website found on page ' + str(self.page))
+                    for i in range(0,i):
+                        if count==0:
+                            print('\n')
+                            print('Top websites on top of the searched Website are : ')
+                            print('\n')
+                            count+=1
+                        print(self.links_text[i])
+            sum+=len(self.links_text)
+            if counter!=0:
+                break
+            else:
+                print('Not found on page ' + str(self.page))
+                print('\n')
+                click_next_page=self.driver.find_element_by_xpath('//*[@id="pnnext"]/span[2]')
+                self.driver.execute_script('arguments[0].click();',click_next_page)
+            self.page+=1
+
 
 
 class_object=rank_predict()
-string_to_search='balloon decoration in Delhi'                              #Enter the seacr string for which you want to get links
+string_to_search=''                              #Enter the seacr string for which you want to get links
 class_object.search_google(string_to_search)
-class_object.get_links()
+# class_object.get_links()
 
-name_of_website='cherishx'                      # Enter the website whose rank you want to predict
+name_of_website=''                      # Enter the website whose rank you want to predict
 
 class_object.search(name_of_website,string_to_search)
 
