@@ -31,6 +31,7 @@ class rank_predict:
         search_bar = self.driver.find_element_by_xpath('//*[@id="lst-ib"]')      #Locating the search bar on page
         self.driver.execute_script('arguments[0].click();',search_bar)
         send_keys=search_bar.send_keys(search_string + Keys.ENTER)               #Sending Keys to the search bar
+
     def get_links(self):
 
         try:
@@ -46,6 +47,7 @@ class rank_predict:
             if (self.links_as_webelement[i].text)!='':
                 self.links_text.append(self.links_as_webelement[i].text)
         # print(self.links_text)
+
     def search(self,search,stringtosearch):
         sum=0
 
@@ -82,13 +84,14 @@ class rank_predict:
             self.page+=1
 
 
-
-class_object=rank_predict()
-string_to_search=''                              #Enter the seacr string for which you want to get links
-class_object.search_google(string_to_search)
-
 name_of_website=''                      # Enter the website whose rank you want to predict
-
-class_object.search(name_of_website,string_to_search)
+filepath='String.txt'
+class_object=rank_predict()
+with open(filepath) as fp:
+    line=fp.readlines()
+for i in range(0,len(line)):
+    string_to_search=line[i]
+    class_object.search_google(string_to_search)
+    class_object.search(name_of_website,string_to_search)
 
 
