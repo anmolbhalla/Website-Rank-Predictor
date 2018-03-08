@@ -45,20 +45,31 @@ class rank_predict:
             if (self.links_as_webelement[i].text)!='':
                 self.links_text.append(self.links_as_webelement[i].text)
         # print(self.links_text)
-    def search(self,search):
-
+    def search(self,search,stringtosearch):
+        count=0
+        counter=0
         for i in range(0,len(self.links_text)):
             if search in self.links_text[i]:
-                print(i+1)
+                counter+=1
+                print('Rank of  '+ str(search) +' for the search  '+str(stringtosearch)+ ' is :' +str(i+1))
+                for i in range(0,i):
+                    if count==0:
+                        print('\n')
+                        print('Top websites on top of the searched Website are :')
+                        print('\n')
+                        count+=1
+                    print(self.links_text[i])
+        if counter==0:
+            print('Not found on Page')
 
 
 class_object=rank_predict()
-string_to_search=''                              #Enter the seacr string for which you want to get links
+string_to_search='balloon decoration in Delhi'                              #Enter the seacr string for which you want to get links
 class_object.search_google(string_to_search)
 class_object.get_links()
 
-name_of_website=''                      # Enter the website whose rank you want to predict
+name_of_website='cherishx'                      # Enter the website whose rank you want to predict
 
-class_object.search(name_of_website)
+class_object.search(name_of_website,string_to_search)
 
 
