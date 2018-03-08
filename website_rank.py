@@ -9,8 +9,8 @@ class rank_predict:
 
     def __init__(self):
 
-        # self.display = Display(visible=0, size=(1024, 768))
-        # self.display.start()
+        self.display = Display(visible=0, size=(1024, 768))
+        self.display.start()
         self.driver=webdriver.Chrome()
         self.driver.get(url='https://www.google.com')
         self.timeout = 100
@@ -86,7 +86,6 @@ class rank_predict:
 class_object=rank_predict()
 string_to_search=''                              #Enter the seacr string for which you want to get links
 class_object.search_google(string_to_search)
-# class_object.get_links()
 
 name_of_website=''                      # Enter the website whose rank you want to predict
 
