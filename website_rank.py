@@ -4,17 +4,16 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
-from pyvirtualdisplay import Display
+from pyvirtualdisplay import Display       # Comment this if using windows
 class rank_predict:
 
     def __init__(self):
 
-        self.display = Display(visible=0, size=(1024, 768))
-        self.display.start()
+        self.display = Display(visible=0, size=(1024, 768))        # Comment this if using windows
+        self.display.start()                                        # Comment this if using windows
         self.driver=webdriver.Chrome()
         self.driver.get(url='https://www.google.com')
         self.timeout = 100
-        self.page=1
 
 
 
@@ -46,10 +45,10 @@ class rank_predict:
         for i in range(0,len(self.links_as_webelement)):
             if (self.links_as_webelement[i].text)!='':
                 self.links_text.append(self.links_as_webelement[i].text)
-        # print(self.links_text)
 
     def search(self,search,stringtosearch):
         sum=0
+        self.page=1
 
         while self.page<10:
             self.get_links()
@@ -74,6 +73,7 @@ class rank_predict:
                             count+=1
                         print(self.links_text[i])
             sum+=len(self.links_text)
+
             if counter!=0:
                 break
             else:
@@ -82,6 +82,7 @@ class rank_predict:
                 click_next_page=self.driver.find_element_by_xpath('//*[@id="pnnext"]/span[2]')
                 self.driver.execute_script('arguments[0].click();',click_next_page)
             self.page+=1
+        self.driver.get(url='https://www.google.com')
 
 
 name_of_website=''                      # Enter the website whose rank you want to predict
@@ -90,8 +91,11 @@ class_object=rank_predict()
 with open(filepath) as fp:
     line=fp.readlines()
 for i in range(0,len(line)):
+    print('\n')
+    print(line[i])
     string_to_search=line[i]
     class_object.search_google(string_to_search)
     class_object.search(name_of_website,string_to_search)
+class_object.driver.quit()
 
 
